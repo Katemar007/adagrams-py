@@ -1,5 +1,7 @@
 from random import randint
 import random
+from collections import Counter
+
 LETTER_POOL = {
     'A': 9, 
     'B': 2, 
@@ -34,19 +36,35 @@ LETTERS_LIST = ['A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'B', 'B', 'C', 'C',
 
 def draw_letters():
     
-    tile = []
+    tiles = []
     for x in range(10):
         random_integer = random.randint(0, len(LETTERS_LIST)-1)
         letter = LETTERS_LIST[random_integer]
-        if tile.count(letter) == LETTER_POOL[letter]:
+        if tiles.count(letter) == LETTER_POOL[letter]:
             break
-        tile.append(LETTERS_LIST[random_integer])
-    return tile
+        #tiles.append(LETTERS_LIST[random_integer])
+        tiles.append(letter)
+    return tiles
 
     
 
 def uses_available_letters(word, letter_bank):
-    pass
+    # for number in range(len(word)):
+    #     for letter in word:
+    #         if letter_bank.count(letter) >= word.count(letter):
+    #             continue
+    #         elif letter not in letter_bank or letter_bank.count(letter) < word.count(letter):
+    #             return False
+    #         return True   
+    word = word.upper()
+    word_counts = Counter(word)
+    letter_bank_counts = Counter(letter_bank)
+    
+    for letter, count in word_counts.items():
+        if letter_bank_counts[letter] < count:
+            return False
+    
+    return True
 
 def score_word(word):
     pass
